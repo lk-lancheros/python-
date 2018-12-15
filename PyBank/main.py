@@ -4,6 +4,7 @@ import csv
 
 #joining path
 budget_data_path = os.path.join("..", "Resources", "budget_data.csv")
+file_to_output = "PyBank_output.txt"
 
 # open and read csv
 with open(budget_data_path, newline="") as csvfile:
@@ -15,23 +16,23 @@ with open(budget_data_path, newline="") as csvfile:
     # find net amount of profit and loss
     profit = []
     months = []
+    profit_prev_row = []
     total_months = 0
-
-    #read through each row of data after header
-    for rows in csvreader:
-        profit.append(int(rows[1]))
-        months.append(rows[0])
-
-    # find revenue change
     revenue_change = []
-
+    
+    #read through each row of data after header
+    for row in csvreader:
+        profit.append(int(row[1]))
+        months.append(row[0])
+            
+    # find revenue change
+    
     for x in range(1, len(profit)):
         revenue_change.append((int(profit[x]) - int(profit[x-1])))
     
-    # calculate average revenue change
-    revenue_average = sum(revenue_change) / len(revenue_change)
-    revenue_average = round(revenue_average, 2)
-
+    #calculate average revenue change
+    revenue_average = round(sum(revenue_change) / len(revenue_change),2)
+    
     # calculate total length of months
     total_months = len(months)
 
@@ -41,38 +42,18 @@ with open(budget_data_path, newline="") as csvfile:
     greatest_decrease = min(revenue_change)
 
 
-    # print the Results
-    print("Financial Analysis")
+with open(file_to_output, "w") as txt_file:
+    # Print the final vote count (to terminal)
+    financial_results = (
+        f"\n\nFinancial Analysis\n"
+        f"-------------------------\n"
+        f"Total Months:"+ str(total_months)+"\n"
+        f"Total: " + "$" + str(sum(profit)) + "\n"
+        f"Average change: " + "$" + str(revenue_average) + "\n"
+        f"Greatest Increase in Profits: " + str(months[revenue_change.index(max(revenue_change))+1]) + " " + "$" + str(greatest_increase) + "\n"
+        f"Greatest Decrease in Profits: " + str(months[revenue_change.index(min(revenue_change))+1]) + " " + "$" + str(greatest_decrease) + "\n")
+        
+    print(financial_results, end="")
 
-    print("....................................................................................")
-
-    print("Total months: " + str(total_months))
-
-    print("Total: " + "$" + str(sum(profit)))
-
-    print("Average change: " + "$" + str(revenue_average))
-
-    print("Greatest Increase in Profits: " + str(months[revenue_change.index(max(revenue_change))+1]) + " " + "$" + str(greatest_increase))
-
-    print("Greatest Decrease in Profits: " + str(months[revenue_change.index(min(revenue_change))+1]) + " " + "$" + str(greatest_decrease))
-
-
-    # output to a text file
-
-
-    file = open("output.txt","w")
-
-    file.write("Financial Analysis" + "\n")
-
-    file.write("...................................................................................." + "\n")
-
-    file.write("Total months: " + str(total_months) + "\n")
-    file.write("Total: " + "$" + str(sum(profit)) + "\n")
-
-    file.write("Average change: " + "$" + str(revenue_average) + "\n")
-
-    file.write("Greatest Increase in Profits: " + str(months[revenue_change.index(max(revenue_change))+1]) + " " + "$" + str(greatest_increase) + "\n")
-
-    file.write("Greatest Decrease in Profits: " + str(months[revenue_change.index(min(revenue_change))+1]) + " " + "$" + str(greatest_decrease) + "\n")
-
-    file.close()
+    # Save the final vote count to the text file
+    txt_file.write(financial_results)

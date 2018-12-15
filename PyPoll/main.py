@@ -9,55 +9,50 @@ with open(election_csv_path, newline="") as election_csvfile:
 
     # Read the header row first 
     csv_header = next(election_csvfile)
-    print(f"Header: {csv_header}")
-
+    
     Total_Votes = 0
+    Candidate_name =[]
     Candidate_list = []
     Candidate_votes = {}
-    #use dictionary
+    winning_candidate = ""
+    winning_count = 0
     
+    #loop through csv data where 1 row = 1 vote
     for row in electionreader:
+        #create counter for all votes equal to number of rows minus header
         Total_Votes= Total_Votes+1
-        Candidate_name= row[2]
+        #bring in the third column of data, candidate name in a list called candidate list
+        Candidate_name = row[2]
+    
+    #     #if the candidate name in this row is NOT on my new list called candidate list add it
         if Candidate_name not in Candidate_list:
             Candidate_list.append(Candidate_name)
+            
+            #Create a dictionary with four rows of data - candidate name and total votes
             Candidate_votes[Candidate_name]=0
         Candidate_votes[Candidate_name]=Candidate_votes[Candidate_name]+1
-    
-    Candidate_votes.values()
-    
-    
-    #winner_vote = max(Candidate_votes{1})
-    
-    #print(Candidate_votes)
 
-    #print(Candidate_list)
+# print the results
+print("Election results")
+print("--------------------------------------------------------------------------")
+print("Total votes: " + str(Total_Votes))
+print("----------------------------------------------------------------------------") 
 
-    #candidates_count
-    
-    #percentage_votes = (candidates_count/total_votes)*100
-    # percentage_votes
+# Determine the winner by looping through the counts
+    for candidate in Candidate_votes:
 
-    # winner = candidates_count.idxmax()
-    # winner
+        # Retrieve vote count and percentage
+        votes = Candidate_votes.get(candidate)
+        vote_percentage = float(votes) / float(Total_Votes) * 100
 
-# # print the results
-# print("Election results")
+        # Determine winning vote count and candidate
+        if (votes > winning_count):
+            winning_count = votes
+            winning_candidate = candidate
+        # Print each candidate's voter count and percentage (to terminal)
+        voter_output = f"{candidate}: {vote_percentage:.3f}% ({votes})\n"
+        print(voter_output, end="")
 
-# print("--------------------------------------------------------------------------")
-
-# print("Total votes: " + str(total_votes))
-
-# print("----------------------------------------------------------------------------")
-
-# print("Khan:" + " " + str(round(percentage_votes[0],3)) + "%" + "("+str(candidates_count[0])+")")
+print("----------------------------------------------------------------------------------------")
       
-# print("Correy:" + " " + str(round(percentage_votes[1],3)) + "%" + "("+str(candidates_count[1])+")")
-      
-# print("Li:" + " " + str(round(percentage_votes[2],3)) + "%" + "("+str(candidates_count[2])+")")
-      
-# print("O'Tooley:" + " " + str(round(percentage_votes[3],3)) + "%" + "("+str(candidates_count[3])+")")
-
-# print("----------------------------------------------------------------------------------------")
-      
-# print("winner: " + winner)
+print("Winner:" + winning_candidate)
