@@ -47,11 +47,11 @@ with open(file_to_output, "w") as txt_file:
     financial_results = (
         f"\n\nFinancial Analysis\n"
         f"-------------------------\n"
-        f"Total Months:"+ str(total_months)+"\n"
-        f"Total: " + "$" + str(sum(profit)) + "\n"
-        f"Average change: " + "$" + str(revenue_average) + "\n"
-        f"Greatest Increase in Profits: " + str(months[revenue_change.index(max(revenue_change))+1]) + " " + "$" + str(greatest_increase) + "\n"
-        f"Greatest Decrease in Profits: " + str(months[revenue_change.index(min(revenue_change))+1]) + " " + "$" + str(greatest_decrease) + "\n")
+        f"Total Months:{total_months}\n"
+        f"Total: ${sum(profit)}\n"
+        f"Average change: $ {revenue_average}\n"
+        f"Greatest Increase in Profits: {months[revenue_change.index(max(revenue_change))+1]} ${greatest_increase}\n"
+        f"Greatest Decrease in Profits: {months[revenue_change.index(min(revenue_change))+1]} ${greatest_decrease}\n")
         
     print(financial_results, end="")
 

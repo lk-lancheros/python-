@@ -58,7 +58,7 @@ with open(file_to_output, "w") as txt_file:
             winning_candidate = candidate
         
         # print the results
-        voter_output = f"{candidate}: {vote_percentage:.3f}% ({votes})\n"
+        voter_output = f"{candidate}: {vote_percentage:.1f}% ({votes})\n"
         print(voter_output, end="")
         txt_file.write(voter_output)
 
